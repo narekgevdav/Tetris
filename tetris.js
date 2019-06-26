@@ -1,6 +1,7 @@
 let iBlock,jBlock,lBlock,oBlock,sBlock,tBlock,zBlock,tetrisShapes;
 let rotationState = 0;
 let gameboardState = []
+const emptyRow = ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
 
 function makeshapes() {
     iBlock = [[[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]],[[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]]]
@@ -137,6 +138,7 @@ function getRandomShape() {
 
             }
             canmove = true
+            checkBoardState();
             getRandomShape();
             drowShape()
         }
@@ -269,4 +271,23 @@ if(canrotate) {
 }
 }
 
+function  checkBoardState() {
+    for (let i =0; i< gameboardState.length;i++){
+        if(gameboardState[i].indexOf('0')===-1){
+            gameboardState.splice(i,1)
+            gameboardState.unshift(emptyRow)
+            for(let j = 0;j < 20; j++)  {
+                for (let k = 0; k<10;k++){
+                    let changeState =document.querySelector(`[data-index = "` + (j) + `,` + (k) + `"]`)
+                    changeState.dataset.state = gameboardState[j][k]
+                }
+                    }
+
+
+
+
+
+        }
+    }
+}
 
