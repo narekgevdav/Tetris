@@ -158,7 +158,7 @@ function drowNextShape() {
 
     function move(direction) {
         switch (direction.key) {
-            case "ArrowDown":
+            //case "ArrowDown":
                // instaDown(shape);
                // break;
             case "ArrowLeft":
