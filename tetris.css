@@ -1,0 +1,32 @@
+
+[data-state = "0"] {
+
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid black;
+}
+#gameboard{
+    flex-direction: column;
+    display: flex;
+
+}
+
+
+
+[data-state = "1"]{
+    background-color: brown;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid black;
+
+}
+[data-state = "2"]{
+    background-color: blue;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid black;
+
+}
