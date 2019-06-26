@@ -7,7 +7,7 @@ const emptyRow = ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
 let nextShape;
 let shape;
 let canmove = true
-let interval
+//let interval
 let canGoDown = true
 let gameoverstatus = false;
 
@@ -133,7 +133,7 @@ function drowNextShape() {
         let scoreText = document.getElementById("info")
         scoreText.innerText =`Score: 0`
         canGoDown = true
-        interval = setInterval(function(){goDown(shape)},400);
+        //interval = setInterval(function(){goDown(shape)},400);
 
         if(gameoverstatus) {
             let a = document.getElementById("gameOver")
@@ -158,9 +158,9 @@ function drowNextShape() {
 
     function move(direction) {
         switch (direction.key) {
-            //case "ArrowDown":
-               // instaDown(shape);
-               // break;
+            case "ArrowDown":
+               goDown(shape);
+                break;
             case "ArrowLeft":
                 goLeft(shape);
                 break;
@@ -388,9 +388,10 @@ function gameover(){
             let gameover = document.createElement("div")
             gameover.innerHTML = `<h1 id="gameOver">GAME OVER</h1>"`
             gameBoard.appendChild(gameover)
-            clearInterval(interval)
+            //clearInterval(interval)
             canGoDown = false;
             gameoverstatus = true
+            console.log(gameboardState)
             gameboardState = [];
             break;
 
