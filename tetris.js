@@ -19,7 +19,7 @@ play.addEventListener('click',start)
 function makeshapes() {
     iBlock = [[[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]],[[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]]]
     jBlock = [[[0,1],[1,1],[2,1],[2,0]],[[0,0],[1,0],[1,1],[1,2]],[[0,2],[0,1],[1,1],[2,1]],[[1,0],[1,1],[1,2],[2,2]]]
-    lBlock = [[[0,0],[1,0],[2,0],[2,1]],[[0,0],[0,1],[0,2],[1,2]],[[0,2],[1,2],[2,2],[2,1]],[[1,0],[2,0],[2,1],[2,2]]]
+    lBlock = [[[0,1],[1,1],[2,1],[2,2]],[[1,0],[2,0],[1,1],[1,2]],[[0,0],[0,1],[1,1],[2,1]],[[1,0],[1,1],[1,2],[0,2]]]
     oBlock = [[[0,0],[0,1],[1,1],[1,0]],[[0,0],[0,1],[1,1],[1,0]],[[0,0],[0,1],[1,1],[1,0]],[[0,0],[0,1],[1,1],[1,0]]]
     sBlock = [[[0,1],[0,2],[1,0],[1,1]],[[0,1],[1,1],[1,2],[2,2]],[[0,1],[0,2],[1,0],[1,1]],[[0,1],[1,1],[1,2],[2,2]]]
     tBlock = [[[0,1],[1,0],[1,1],[1,2]],[[0,1],[1,1],[1,2],[2,1]],[[1,0],[1,1],[1,2],[2,1]],[[1,0],[0,1],[1,1],[2,1]]]
@@ -133,7 +133,7 @@ function drowNextShape() {
         let scoreText = document.getElementById("info")
         scoreText.innerText =`Score: 0`
         canGoDown = true
-        interval = setInterval(function(){goDown(shape)},900);
+        interval = setInterval(function(){goDown(shape)},400);
 
         if(gameoverstatus) {
             let a = document.getElementById("gameOver")
@@ -158,7 +158,7 @@ function drowNextShape() {
 
     function move(direction) {
         switch (direction.key) {
-            //case "ArrowDown":
+            case "ArrowDown":
                // instaDown(shape);
                // break;
             case "ArrowLeft":
