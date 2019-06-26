@@ -1,3 +1,4 @@
+const gameBoard = document.getElementById("gameboard")
 let iBlock,jBlock,lBlock,oBlock,sBlock,tBlock,zBlock,tetrisShapes;
 let rotationState = 0;
 let gameboardState = []
@@ -6,6 +7,8 @@ const emptyRow = ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
 let nextShape;
 let shape;
 let canmove = true
+let interval
+let canGoDown = true
 
 let play = document.getElementById("play")
 play.addEventListener('click',start)
@@ -27,7 +30,6 @@ function makeshapes() {
 
 
 function makeGameBoard() {
-    const gameBoard = document.getElementById("gameboard")
         for(let i = 0; i<20;i++){
             let row = document.createElement('div')
             row.className = "row"
@@ -79,6 +81,8 @@ function getRandomShape() {
 
 
     function drowShape() {
+        gameover();
+
 
         for (let item of shape[rotationState]) {
             let activeShape = document.querySelector(`[data-index = "` + item[0] + `,` + (item[1] + 4) + `"]`)
@@ -120,6 +124,9 @@ function drowNextShape() {
         score = 0;
         let scoreText = document.getElementById("info")
         scoreText.innerText =`Score: 0`
+        canGoDown = true
+        interval = setInterval(function(){goDown(shape)},900);
+
     }
     makenextShape()
 
@@ -134,7 +141,7 @@ function drowNextShape() {
     function move(direction) {
         switch (direction.key) {
             case "ArrowDown":
-                goDown(shape);
+                instaDown(shape);
                 break;
             case "ArrowLeft":
                 goLeft(shape);
@@ -154,13 +161,14 @@ function drowNextShape() {
 
 
 
+
         for (let item of shape[rotationState]) {
             if ((item[0] < 19 && item[0] < 19 && item[0] < 19 && item[0] < 19)) {
                 if (document.querySelector(`[data-index = "` + (item[0] + 1) + `,` + (item[1] + 4) + `"]`).dataset.state === "2") {
                     canmove = false
                 }
             } else {
-                canmove = false
+                canmove = false;
                 break;
             }
         }
@@ -355,4 +363,26 @@ function  checkBoardState() {
     }
     console.log(score)
 }
+function gameover(){
+   for (let item of shape[rotationState]) {
+        let activeShape = document.querySelector(`[data-index = "` + item[0] + `,` + (item[1] + 4) + `"]`)
+        if(activeShape.dataset.state === "2"){
+            let gameover = document.createElement("div")
+            gameover.innerHTML = `<h1 id="gameOver">GAME OVER</h1>"`
+            gameBoard.appendChild(gameover)
+            clearInterval(interval)
+            canGoDown = false;
+            break;
+        }
+    }
+}
+function instaDown(shape) {
+    for (let item of shape[rotationState]) {
+        if ((item[0] < 19 && item[0] < 19 && item[0] < 19 && item[0] < 19&& canGoDown === true)) {
+            if (document.querySelector(`[data-index = "` + (item[0] + 1) + `,` + (item[1] + 4) + `"]`).dataset.state !== "2") {
+               goDown(shape);
+            }
 
+        }
+    }
+}
