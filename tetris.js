@@ -9,6 +9,7 @@ let shape;
 let canmove = true
 let interval
 let canGoDown = true
+let gameoverstatus = false;
 
 let play = document.getElementById("play")
 play.addEventListener('click',start)
@@ -27,14 +28,22 @@ function makeshapes() {
 
 
 }
+function makeGameBoardState() {
+    for(let i = 0; i<20;i++){
+        let arr =[]
+        for(let j = 0; j<10;j++){
+            arr.push('0')
+        }
+        gameboardState.push(arr)
+    }
 
+}
 
 function makeGameBoard() {
         for(let i = 0; i<20;i++){
             let row = document.createElement('div')
             row.className = "row"
             row.dataset.row = i
-            let arr =[]
             for(let j = 0; j<10;j++){
                 let box = document.createElement('div')
                 box.className = "box"
@@ -42,11 +51,10 @@ function makeGameBoard() {
                 box.dataset.state = "0";
                box.innerHTML = `.`
                 row.appendChild(box)
-                arr.push('0')
 
             }
             gameBoard.appendChild(row)
-            gameboardState.push(arr)
+
         }
 
 }
@@ -127,6 +135,16 @@ function drowNextShape() {
         canGoDown = true
         interval = setInterval(function(){goDown(shape)},900);
 
+        if(gameoverstatus) {
+            let a = document.getElementById("gameOver")
+            a.parentElement.remove()
+            gameoverstatus = false;
+
+
+        }
+        makeGameBoardState();
+
+
     }
     makenextShape()
 
@@ -140,9 +158,9 @@ function drowNextShape() {
 
     function move(direction) {
         switch (direction.key) {
-            case "ArrowDown":
-                instaDown(shape);
-                break;
+            //case "ArrowDown":
+               // instaDown(shape);
+               // break;
             case "ArrowLeft":
                 goLeft(shape);
                 break;
@@ -372,7 +390,10 @@ function gameover(){
             gameBoard.appendChild(gameover)
             clearInterval(interval)
             canGoDown = false;
+            gameoverstatus = true
+            gameboardState = [];
             break;
+
         }
     }
 }
