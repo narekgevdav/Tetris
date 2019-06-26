@@ -133,7 +133,7 @@ function drowNextShape() {
         let scoreText = document.getElementById("info")
         scoreText.innerText =`Score: 0`
         canGoDown = true
-        interval = setInterval(function(){goDown(shape)},900);
+        interval = setInterval(function(){goDown(shape)},500);
 
         if(gameoverstatus) {
             let a = document.getElementById("gameOver")
