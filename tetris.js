@@ -1,7 +1,16 @@
 let iBlock,jBlock,lBlock,oBlock,sBlock,tBlock,zBlock,tetrisShapes;
 let rotationState = 0;
 let gameboardState = []
+let score = 0;
 const emptyRow = ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+let nextShape;
+let shape;
+let canmove = true
+
+let play = document.getElementById("play")
+play.addEventListener('click',start)
+
+
 
 function makeshapes() {
     iBlock = [[[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]],[[0,0],[1,0],[2,0],[3,0]],[[0,0],[0,1],[0,2],[0,3]]]
@@ -15,12 +24,6 @@ function makeshapes() {
 
 
 }
-
-
-
-let shape;
-let canmove = true
-
 
 
 function makeGameBoard() {
@@ -45,16 +48,37 @@ function makeGameBoard() {
         }
 
 }
+makeGameBoard();
+function makenextShape(){
+    const nextShape = document.getElementById("nextShape")
+    for(let i = 0; i<4;i++){
+        let row = document.createElement('div')
+        row.className = "nextShapeRow"
+        row.dataset.nextShapeRow = i
+            for(let j = 0; j<4;j++){
+            let box = document.createElement('div')
+            box.className = "nextShapeBox"
+            box.dataset.nextIndex = `${i},${j}`
+            box.dataset.state = "0";
+            box.innerHTML = `.`
+            row.appendChild(box)
+
+
+        }
+        nextShape.appendChild(row)
+
+    }
+}
 function getRandomShape() {
     makeshapes()
     let randomShape = Math.floor(Math.random()*7)
-    shape = tetrisShapes[randomShape]
+    return tetrisShapes[randomShape];
+
 
 }
 
+
     function drowShape() {
-
-
 
         for (let item of shape[rotationState]) {
             let activeShape = document.querySelector(`[data-index = "` + item[0] + `,` + (item[1] + 4) + `"]`)
@@ -65,10 +89,47 @@ function getRandomShape() {
 
 
     }
+function drowNextShape() {
+    for (let j = 0; j < 4; j++) {
+        for (let k = 0; k < 4; k++) {
+            let changeState = document.querySelector(`[data-next-index = "` + (j) + `,` + (k) + `"]`)
+            changeState.dataset.state = "0"
+        }
+    }
 
-    makeGameBoard();
-    getRandomShape();
-    drowShape();
+
+    for (let item of nextShape[rotationState]) {
+
+        let activeShape = document.querySelector(`[data-next-index = "` + item[0] + `,` + (item[1]) + `"]`)
+        activeShape.dataset.state = "1"
+
+    }
+}
+
+    function start(){
+        for(let j = 0;j < 20; j++)  {
+            for (let k = 0; k<10;k++){
+                let changeState =document.querySelector(`[data-index = "` + (j) + `,` + (k) + `"]`)
+                changeState.dataset.state ="0"
+            }
+        }
+        shape = getRandomShape();
+        drowShape();
+        nextShape = getRandomShape();
+        drowNextShape();
+        score = 0;
+        let scoreText = document.getElementById("info")
+        scoreText.innerText =`Score: 0`
+    }
+    makenextShape()
+
+    function gonext() {
+        shape = nextShape
+        nextShape = getRandomShape();
+        drowShape();
+        drowNextShape();
+    }
+
 
     function move(direction) {
         switch (direction.key) {
@@ -137,10 +198,10 @@ function getRandomShape() {
 
 
             }
-            canmove = true
+            canmove = true;
             checkBoardState();
-            getRandomShape();
-            drowShape()
+            gonext()
+
         }
     }
     function goLeft(shape) {
@@ -274,6 +335,9 @@ if(canrotate) {
 function  checkBoardState() {
     for (let i =0; i< gameboardState.length;i++){
         if(gameboardState[i].indexOf('0')===-1){
+            score = score +100
+            let scoreText = document.getElementById("info")
+            scoreText.innerText =`Score: ${score}`
             gameboardState.splice(i,1)
             gameboardState.unshift(emptyRow)
             for(let j = 0;j < 20; j++)  {
@@ -289,5 +353,6 @@ function  checkBoardState() {
 
         }
     }
+    console.log(score)
 }
 

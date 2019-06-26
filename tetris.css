@@ -9,6 +9,8 @@
 #gameboard{
     flex-direction: column;
     display: flex;
+    position: absolute;
+    border: 3px solid green;
 
 }
 
@@ -29,4 +31,10 @@
     display: inline-block;
     border: 1px solid black;
 
+}
+h1{
+    text-align: center;
+}
+#wrapper{
+    float: right;
 }
